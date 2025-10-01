@@ -1,30 +1,92 @@
 extends layout
 
 block content
-  div.container
+  pre #{JSON.stringify({ window_width, card})}
+
+  div.header_container
     div.search_banner 
       img(src="images/Magilogo.png", alt="", style="margin-left: 18%;")
       input(type="text" name="username" placeholder="Enter text" style="background: none; border: 0px; position: relative; top: -40%;")
 
     div.sort_banner
+      label(for="ViewType")
+      select#ViewType(name="ViewType")
+        option(value="Cards") Cards
+        option(value="All Prints") All Prints
+        option(value="Unique") Unique
+
+      label(for="DisplayType")  as 
+      select#DisplayType(name="DisplayType")
+        option(value="Images") Images
+        option(value="Checklist") Checklist
+        option(value="Text Only") Text Only
+        option(value="Full") Full
+
+      label(for="FilterType")  sorted by 
+      select#FilterType(name="FilterType")
+        option(value="Name") Name
+        option(value="Release Date") Release Date
+        option(value="Set/Number") Set/Number
+        option(value="Rarity") Rarity
+        option(value="Color") Color
+        option(value="Mana Value") Mana Value
+        option(value="Power") Power
+        option(value="Toughness") Toughness
+
+      label(for="SortType")  : 
+      select#SortType(name="SortType")
+        option(value="Asc") Ascending
+        option(value="Desc") Descending
 
     div.result_banner
+      p Test Text
       
       
   div.full_screen
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
-      img(src=card, alt="")
+    //- p#windowSize No window size reported yet
+    //- script(src="/windowSize.js")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    img(src=card, alt="")
+    
+
 
   div.pagination
     span.disabled Previous
     a(href="/cards-page2") Next
+  
+  div.footer_container
+    div.sort_banner
+    
+    div.footer
+  
+  script.
+      function sendWindowSize() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const p = document.getElementById('windowSize');
+        p.textContent = `Current window size: ${width} x ${height}`;
+
+        fetch('/window-size', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ width, height })
+        }).catch(err => console.error('Failed to send window size:', err));
+      }
+      // Send on initial load
+      sendWindowSize();
+
+      // Send every time window is resized
+      window.addEventListener('resize', () => {
+        sendWindowSize();
+      });
+

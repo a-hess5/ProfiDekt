@@ -1,4 +1,4 @@
-.container{
+.header_container{
     display: grid;
     grid-template-columns: 1fr;
     margin: 0;
@@ -13,9 +13,9 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-end: 4;
     width: 66%;
-    background-color: red;
     justify-self: center;
     margin-top: 165px;
+    margin-bottom: 20px;
 }
 
 .full_screen img{
@@ -26,7 +26,7 @@
 .search_banner{
     width: 100%;
     height: 53px;
-    background-color: orange;
+    background-color: #EB7127;
 }
 
 .search_banner img{
@@ -37,13 +37,27 @@
 .sort_banner{
     width: 100%;
     height: 50px;
-    background-color: aqua;
 }
 
 .result_banner{
     width: 100%;
     height: 40px;
-    background-color: blue;
+    background-color: #f0bfa0;
+}
+
+.footer_container{
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0;
+    width: 100%;
+    position: absolute;
+    left: 0;
+}
+
+.footer{
+    width: 100%;
+    height: 90px;
+    background-color:#813f16;
 }
 
 .pagination {
