@@ -45,3 +45,31 @@
     height: 40px;
     background-color: blue;
 }
+
+.pagination {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 18px;
+}
+
+.pagination a,
+.pagination span {
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-decoration: none;
+    background: #f9f9f9;
+    color: black;
+}
+
+.pagination a:hover {
+    background: #eee;
+}
+
+.pagination span.disabled {
+    color: #999;
+    background: #f1f1f1;
+    border-color: #ddd;
+}
