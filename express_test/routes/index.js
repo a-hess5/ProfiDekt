@@ -1,4 +1,3 @@
-// Update your index.js route file to connect with Flask API
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');

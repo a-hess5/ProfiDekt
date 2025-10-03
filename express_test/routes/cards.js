@@ -1,4 +1,3 @@
-// Updated cards.js to work with Flask API
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
