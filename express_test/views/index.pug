@@ -4,13 +4,20 @@ block content
   div.header_container
     div.search_banner
       img(src="images/Magilogo.png", alt="", style="margin-left: 18%;")
-      form#searchForm(action="/" method="GET" style="display: inline;")
+      form#searchForm(action="/" method="GET")
         input#searchInput(type="text" name="q" placeholder="Search cards..."
           value=query.searchQuery
-          style="background: none; border: 0px; position: relative; top: -40%; width: 300px;")
+          style="background: none; border: 0px; height: 50px;")
+
+      p(style="margin-left: 24%;") |
+      button(type=button) Advanced 
+      button(type=button) Syntax 
+      button(type=button) Sets 
+      button(type=button) Random 
+      p(style="margin-left: 2%;") |
 
     div.sort_banner
-      form#filterForm(action="/" method="GET")
+      form#filterForm(action="/" method="GET" style="width: wrap-content; margin-left: 18%;")
         input(type="hidden" name="q" value=query.searchQuery)
 
         label(for="ViewType")
@@ -37,6 +44,12 @@ block content
         select#SortType(name="order" onchange="this.form.submit()")
           option(value="asc" selected=(query.order === 'asc')) Ascending
           option(value="desc" selected=(query.order === 'desc')) Descending
+        
+      button(type=button style="margin-left: 15%;") <<
+      button(type=button) <  Previous
+      button(type=button) R
+      button(type=button) Next  >
+      button(type=button) >>
 
     div.result_banner
       if stats
@@ -70,6 +83,40 @@ block content
 
   div.footer_container
     div.sort_banner
+      form#filterForm(action="/" method="GET" style="width: wrap-content; margin-left: 18%;")
+        input(type="hidden" name="q" value=query.searchQuery)
+
+        label(for="ViewType")
+        select#ViewType(name="view" onchange="this.form.submit()")
+          option(value="cards" selected=(query.viewType === 'cards')) Cards
+          option(value="all_prints" selected=(query.viewType === 'all_prints')) All Prints
+          option(value="unique" selected=(query.viewType === 'unique')) Unique
+
+        label(for="DisplayType")  as
+        select#DisplayType(name="display")
+          option(value="images" selected) Images
+          option(value="checklist") Checklist
+          option(value="text") Text Only
+          option(value="full") Full
+
+        label(for="FilterType")  sorted by
+        select#FilterType(name="sort" onchange="this.form.submit()")
+          option(value="name" selected=(query.sortBy === 'name')) Name
+          option(value="release_date" selected=(query.sortBy === 'release_date')) Release Date
+          option(value="card_number" selected=(query.sortBy === 'card_number')) Set/Number
+          option(value="year" selected=(query.sortBy === 'year')) Year
+
+        label(for="SortType")  :
+        select#SortType(name="order" onchange="this.form.submit()")
+          option(value="asc" selected=(query.order === 'asc')) Ascending
+          option(value="desc" selected=(query.order === 'desc')) Descending
+        
+      button(type=button style="margin-left: 15%;") <<
+      button(type=button) <  Previous
+      button(type=button) R
+      button(type=button) Next  >
+      button(type=button) >>
+    
     div.footer
 
   script.
@@ -88,3 +135,25 @@ block content
     document.getElementById('searchForm').addEventListener('submit', function(e) {
       // Allow normal form submission
     });
+  
+  script.
+      function sendWindowSize() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const p = document.getElementById('windowSize');
+        p.textContent = `Current window size: ${width} x ${height}`;
+
+        fetch('/window-size', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ width, height })
+        }).catch(err => console.error('Failed to send window size:', err));
+      }
+      // Send on initial load
+      sendWindowSize();
+
+      // Send every time window is resized
+      window.addEventListener('resize', () => {
+        sendWindowSize();
+      });
