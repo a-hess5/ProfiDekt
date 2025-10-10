@@ -27,6 +27,7 @@
     width: 100%;
     height: 53px;
     background-color: #EB7127;
+    display: flex;
 }
 
 .search_banner img {
@@ -34,15 +35,42 @@
     padding: 4px;
 }
 
-.sort_banner {
+.search_banner button{
+    border: none;
+    background: none;
+    margin-left: 1%;
+}
+
+.sort_banner{
     width: 100%;
     height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.sort_banner select{
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.sort_banner button{
+    height: 60%;
+    width: fit-content;
+    margin-left: 7px;
+    background: none;
+    border-width: 1px;
 }
 
 .result_banner {
     width: 100%;
     height: 40px;
     background-color: #f0bfa0;
+    align-items: center;
+}
+
+.result_banner p{
+    margin-left: 19%;
 }
 
 .footer_container {
