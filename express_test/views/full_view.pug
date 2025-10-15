@@ -1,0 +1,37 @@
+extends layout 
+
+block content 
+    div.header_container
+        div.search_banner
+            img(src="images/Magilogo.png", alt="", style="margin-left: 18%;")
+            input(type="text" name="username" placeholder="Enter text" style="background: none; border: 0px;")
+            p(style="margin-left: 24%;") |
+            button(type=button) Advanced 
+            button(type=button) Syntax 
+            button(type=button) Sets 
+            button(type=button) Random 
+            p(style="margin-left: 2%;") |
+
+    .full_center-container
+        .full_view_card 
+            img(src="images/Niv-Mizzet, Parun (Doc-Gargac, Parun).png", alt="")
+        
+            .full_card_info
+                p(style="border-bottom: 1px solid black;") Card Name and MV
+                p(style="border-bottom: 1px solid black;") Card Types
+                p Card Text 1
+                p Card Text 2 
+                p(style="border-bottom: 1px solid black;") Card Text 3 
+                p(style="border-bottom: 1px solid black;") Provided by ACM/ASME ------------------------
+
+            .full_set_info
+                p(style="margin-top: 10px; font-size: 20px;") MagiProf: Series 1
+                p(style="margin-bottom: 10px; font-size: 10px;") V1 - Rarity - English - Printing
+                img(src="images/MagiIcon.png" alt="" style="position: absolute; top: 0;")
+
+        
+    
+    
+
+    //- div.footer_container 
+    //-     div.footer
