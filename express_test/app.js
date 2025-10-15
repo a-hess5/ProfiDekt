@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', homeRouter )
 app.use('/index', indexRouter);
-app.use('/', cardsRouter);
+app.use('/cards', cardsRouter);
 app.use('/users', usersRouter);
 
 
