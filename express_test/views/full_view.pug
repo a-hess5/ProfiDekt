@@ -29,8 +29,18 @@ block content
                     p #{cardType}
                 div.full_card_info_oracle(style="border-bottom: 1px solid black")
                     each line in oracleText
-                        if(line != "")
-                            p#oracle(style="margin-bottom: 0px") #{line}
+                        - var findBraces = line.match(/\{.*?\}/g) || []
+                        - var modifiedLine = line
+                        each match in findBraces
+                            - var extractedBraces = match || ''
+                            - var inner = extractedBraces.slice(1, -1)
+                            - var replacement = ''
+                            each char in match
+                                - if(char !== '{' && char !== '}') 
+                                    - var manaValueString = "images/Game_Symbols/" + char + ".png"
+                                    - replacement += `<img src="${manaValueString}" alt="${char}" style="display: inline; height: 16px; width: 16px; margin: 0px; margin-left: 2px;">`
+                            - modifiedLine = modifiedLine.replace(match, replacement)
+                        p!= modifiedLine
                     p(style="font-style: italic") #{flavorText}
                 div.full_card_info_powerAndToughness
                     p(style="border-bottom: 1px solid black; margin-top: 0px") #{power}/#{toughness}
@@ -41,11 +51,15 @@ block content
                 p(style="margin-top: 10px; font-size: 20px;") MagiProf: Series 1
                 p(style="margin-bottom: 10px; font-size: 10px;") V1 - #{rarity} - English - #{printing}
                 img(src="images/MagiIcon.png" alt="" style="position: absolute; top: 0;")
-    
+
     script.
-        const oracleElement = document.getElementById('oracle');
-        const manaValueStr = "images/Game_Symbols/R.png";    
-        oracleElement.textElement = oracleElement.textContent.replace('{R}', manaValueStr);
+        const lineCount = #{oracleText.length};
+        for (let i = 0; i < lineCount; i++) {
+            const el = document.getElementById(`oracle-${i}`);
+            if (el) {
+                const chars = manaCost.replace(/{|}/g, '').split('');
+            }
+        }
 
     //- div.footer_container 
     //-     div.footer
