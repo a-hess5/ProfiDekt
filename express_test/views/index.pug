@@ -17,7 +17,7 @@ block content
       p(style="margin-left: 2%;") |
 
     div.sort_banner
-      form#filterForm(action="/" method="GET" style="width: wrap-content; margin-left: 18%;")
+      form#filterForm(action="/index" method="GET" style="width: wrap-content; margin-left: 18%;")
         input(type="hidden" name="q" value=query.searchQuery)
 
         label(for="ViewType")
@@ -27,11 +27,12 @@ block content
           option(value="unique" selected=(query.viewType === 'unique')) Unique
 
         label(for="DisplayType")  as
-        select#DisplayType(name="display")
-          option(value="images" selected) Images
-          option(value="checklist") Checklist
-          option(value="text") Text Only
-          option(value="full") Full
+        select#DisplayType(name="display" onchange="this.form.submit()")
+          option(value="images" selected=(query.display === 'images')) Images
+          option(value="checklist" selected=(query.display === 'checklist')) Checklist
+          option(value="text" selected=(query.display === 'text')) Text Only
+          option(value="full" selected=(query.display === 'full')) Full
+
 
         label(for="FilterType")  sorted by
         select#FilterType(name="sort" onchange="this.form.submit()")
@@ -45,11 +46,13 @@ block content
           option(value="asc" selected=(query.order === 'asc')) Ascending
           option(value="desc" selected=(query.order === 'desc')) Descending
         
-      button(type=button style="margin-left: 15%;") <<
-      button(type=button) <  Previous
-      button(type=button) R
-      button(type=button) Next  >
-      button(type=button) >>
+      // Top pagination buttons
+      button(type=button style="margin-left: 15%;" id="firstPageBtnTop") <<
+      button(type=button id="prevPageBtnTop") < Previous
+      span(style="margin: 0 10px; font-weight: bold;")
+        | Page #{pagination.page || 1} of #{pagination.total_pages || 1}
+      button(type=button id="nextPageBtnTop") Next >
+      button(type=button id="lastPageBtnTop") >>
 
     div.result_banner
       if stats
@@ -57,67 +60,28 @@ block content
       else
         p Loading results...
 
-
   div.full_screen
-    if cards && cards.length > 0
+  if cards && cards.length > 0
+    if query.display === 'checklist'
+      table(style="width: 90%; margin: auto; border-collapse: collapse;")
+        thead
+          tr
+            th(style="border-bottom: 1px solid #ccc; text-align: left; padding: 8px;") Name
+            th(style="border-bottom: 1px solid #ccc; text-align: left; padding: 8px;") Set/Number
+            th(style="border-bottom: 1px solid #ccc; text-align: left; padding: 8px;") Rarity
+        tbody
+          each card in cards
+            tr
+              td(style="padding: 6px 8px;") #{card.name}
+              td(style="padding: 6px 8px;") #{card.card_number}
+              td(style="padding: 6px 8px;") #{card.rarity || 'Unknown'}
+    else
       each card in cards
         - const imagePath = `images/${card.name}.png`
         img(src=imagePath, alt=card.name, title=`${card.name} - ${card.card_number}`)
-    else
-      p(style="grid-column: 1 / -1; text-align: center; padding: 40px;") No cards found
+  else
+    p(style="grid-column: 1 / -1; text-align: center; padding: 40px;") No cards found
 
-  div.pagination
-    if pagination.page > 1
-      - const prevQuery = new URLSearchParams(query)
-      - prevQuery.set('page', pagination.page - 1)
-      a(href=`/?${prevQuery.toString()}`) Previous
-    else
-      span.disabled Previous
-
-    if pagination.page < pagination.total_pages
-      - const nextQuery = new URLSearchParams(query)
-      - nextQuery.set('page', pagination.page + 1)
-      a(href=`/?${nextQuery.toString()}`) Next
-    else
-      span.disabled Next
-
-  div.footer_container
-    div.sort_banner
-      form#filterForm(action="/" method="GET" style="width: wrap-content; margin-left: 18%;")
-        input(type="hidden" name="q" value=query.searchQuery)
-
-        label(for="ViewType")
-        select#ViewType(name="view" onchange="this.form.submit()")
-          option(value="cards" selected=(query.viewType === 'cards')) Cards
-          option(value="all_prints" selected=(query.viewType === 'all_prints')) All Prints
-          option(value="unique" selected=(query.viewType === 'unique')) Unique
-
-        label(for="DisplayType")  as
-        select#DisplayType(name="display")
-          option(value="images" selected) Images
-          option(value="checklist") Checklist
-          option(value="text") Text Only
-          option(value="full") Full
-
-        label(for="FilterType")  sorted by
-        select#FilterType(name="sort" onchange="this.form.submit()")
-          option(value="name" selected=(query.sortBy === 'name')) Name
-          option(value="release_date" selected=(query.sortBy === 'release_date')) Release Date
-          option(value="card_number" selected=(query.sortBy === 'card_number')) Set/Number
-          option(value="year" selected=(query.sortBy === 'year')) Year
-
-        label(for="SortType")  :
-        select#SortType(name="order" onchange="this.form.submit()")
-          option(value="asc" selected=(query.order === 'asc')) Ascending
-          option(value="desc" selected=(query.order === 'desc')) Descending
-        
-      button(type=button style="margin-left: 15%;") <<
-      button(type=button) <  Previous
-      button(type=button) R
-      button(type=button) Next  >
-      button(type=button) >>
-    
-    div.footer
 
   script.
     // Real-time search
@@ -157,3 +121,31 @@ block content
       window.addEventListener('resize', () => {
         sendWindowSize();
       });
+
+  // Pagination functionality for the buttons
+  script.
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = #{pagination.page || 1};
+      const totalPages = #{pagination.total_pages || 1};
+      const queryParams = new URLSearchParams(window.location.search);
+
+      function goToPage(page) {
+        queryParams.set("page", page);
+        window.location.href = `/index?${queryParams.toString()}`;
+      }
+
+      function attachPaginationControls(prefix) {
+        const first = document.getElementById(`firstPageBtn${prefix}`);
+        const prev = document.getElementById(`prevPageBtn${prefix}`);
+        const next = document.getElementById(`nextPageBtn${prefix}`);
+        const last = document.getElementById(`lastPageBtn${prefix}`);
+
+        if (first) first.addEventListener("click", () => { if (currentPage > 1) goToPage(1); });
+        if (prev) prev.addEventListener("click", () => { if (currentPage > 1) goToPage(currentPage - 1); });
+        if (next) next.addEventListener("click", () => { if (currentPage < totalPages) goToPage(currentPage + 1); });
+        if (last) last.addEventListener("click", () => { if (currentPage < totalPages) goToPage(totalPages); });
+      }
+
+      attachPaginationControls("Top");
+      attachPaginationControls("Bottom");
+    });

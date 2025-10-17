@@ -13,6 +13,7 @@ router.get('/', async function(req, res, next) {
     const viewType = req.query.view || 'cards';
     const sortBy = req.query.sort || 'name';
     const order = req.query.order || 'asc';
+    const display = req.query.display || 'images';
     const page = parseInt(req.query.page) || 1;
     
     // Call Flask API
@@ -48,7 +49,8 @@ router.get('/', async function(req, res, next) {
         searchQuery: searchQuery,
         viewType: viewType,
         sortBy: sortBy,
-        order: order
+        order: order,
+        display: display,
       }
     });
     
@@ -61,7 +63,7 @@ router.get('/', async function(req, res, next) {
       pagination: { page: 1, total_pages: 0, total: 0 },
       filters: {},
       stats: { total_cards: 0, unique_cards: 0 },
-      query: { searchQuery: '', viewType: 'cards', sortBy: 'name', order: 'asc' },
+      query: { searchQuery: '', viewType: 'cards', sortBy: 'name', order: 'asc', display: 'images' },
       error: 'Unable to load cards'
     });
   }
