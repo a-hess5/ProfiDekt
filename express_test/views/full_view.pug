@@ -14,24 +14,39 @@ block content
 
     .full_center-container
         .full_view_card 
-            img(src="images/Niv-Mizzet, Parun (Doc-Gargac, Parun).png", alt="")
+            img(src="images/Prof_Cards/Niv-Mizzet, Parun (Doc-Gargac, Parun).png", alt="")
         
             .full_card_info
-                p(style="border-bottom: 1px solid black;") Card Name and MV
-                p(style="border-bottom: 1px solid black;") Card Types
-                p Card Text 1
-                p Card Text 2 
-                p(style="border-bottom: 1px solid black;") Card Text 3 
-                p(style="border-bottom: 1px solid black;") Provided by ACM/ASME ------------------------
+                div.full_card_info_header(style="border-bottom: 1px solid black; align-items: center")
+                    p 
+                        | #{cardName}
+                        - const chars = manaCost.replace(/{|}/g, '').split('');
+                        span.full_card_info_mana(style="display: inline;")
+                            each char in chars
+                                - const manaValueString = "images/Game_Symbols/" + char + ".png";
+                                img(src=manaValueString, alt="", style="display: inline; height: 16px; width: 16px; margin: 0px; margin-left: 2px;")
+                div.full_card_info_type(style="border-bottom: 1px solid black")
+                    p #{cardType}
+                div.full_card_info_oracle(style="border-bottom: 1px solid black")
+                    each line in oracleText
+                        if(line != "")
+                            p#oracle(style="margin-bottom: 0px") #{line}
+                    p(style="font-style: italic") #{flavorText}
+                div.full_card_info_powerAndToughness
+                    p(style="border-bottom: 1px solid black; margin-top: 0px") #{power}/#{toughness}
+                .full_card_info_provider 
+                    p(style="border-bottom: 1px solid black; margin-top: 0px") Provided by ACM/ASME
 
             .full_set_info
                 p(style="margin-top: 10px; font-size: 20px;") MagiProf: Series 1
-                p(style="margin-bottom: 10px; font-size: 10px;") V1 - Rarity - English - Printing
+                p(style="margin-bottom: 10px; font-size: 10px;") V1 - #{rarity} - English - #{printing}
                 img(src="images/MagiIcon.png" alt="" style="position: absolute; top: 0;")
-
-        
     
-    
+    script.
+        const oracleElement = document.getElementById('oracle');
+        const manaValueStr = "images/Game_Symbols/R.png";    
+        oracleElement.textElement = oracleElement.textContent.replace('{R}', manaValueStr);
 
     //- div.footer_container 
     //-     div.footer
+
