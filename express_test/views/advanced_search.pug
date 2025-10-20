@@ -1,0 +1,26 @@
+extends layout 
+
+block content
+    div.header_container
+        div.search_banner
+            img(src="images/Magilogo.png", alt="", style="margin-left: 18%;")
+            input(type="text" name="username" placeholder="Enter text" style="background: none; border: 0px;")
+            p(style="margin-left: 24%;") |
+            button(type=button) Advanced 
+            button(type=button) Syntax 
+            button(type=button) Sets 
+            button(type=button) Random 
+            p(style="margin-left: 2%;") |
+    
+    div.advanced-container
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Card Name
+            div.advanced-center
+                input(type="text" name="username" placeholder=" Any words in the name")
+                p(style="font-style: italic" id="helper") Blorbin
+        
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Card 
+            div.advanced-center
+                input(type="text" name="username" placeholder=" Any words in the name")
+                p(style="font-style: italic" id="helper") Blorbin

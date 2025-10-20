@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var cardsRouter = require('./routes/cards');
 var fullRouter = require('./routes/full_view');
 var homeRouter = require('./routes/home');
+var advancedRouter = require('./routes/advanced_search');
 
 
 var app = express();
@@ -28,6 +29,8 @@ app.use('/index', indexRouter);
 app.use('/cards', cardsRouter);
 app.use('/users', usersRouter);
 app.use('/full', fullRouter);
+app.use('/advanced', advancedRouter);
+
 
 
 // catch 404 and forward to error handler
