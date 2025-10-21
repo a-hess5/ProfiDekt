@@ -17,10 +17,43 @@ block content
             p(style="display: inline" id="header") Card Name
             div.advanced-center
                 input(type="text" name="username" placeholder=" Any words in the name")
-                p(style="font-style: italic" id="helper") Blorbin
         
         div.advanced-middle-man
-            p(style="display: inline" id="header") Card 
+            p(style="display: inline" id="header") Text
             div.advanced-center
-                input(type="text" name="username" placeholder=" Any words in the name")
-                p(style="font-style: italic" id="helper") Blorbin
+                input(type="text" name="username" placeholder=" Any text e.g. 'draw a card'")
+                p(style="font-style: italic" id="helper") Enter text that should appear in the rules box. Word order doesn't matter.
+        
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Type Line
+            div.advanced-center(style="display: grid")
+                input(type="text" name="username" placeholder=" Enter a type")
+                div.advanced-checkbox
+                    input(type="checkbox" name="interests" value="advanced-type-partial")
+                    label(for="advanced-type-partial") Allow partial type matches
+                    
+                p(style="font-style: italic" id="helper") Choose any card type, supertype, or subtypes to match. Click the "IS" or "NOT" button to toggle between including and excluding a type.
+
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Color
+            div.advanced-center(style="display: grid")
+                div.advanced-checkbox
+                    input#advanced-color-white(type="checkbox" name="interests" value="advanced-color-white")
+                    label(for="advanced-color-white") {W} White
+
+                    input#advanced-color-blue(type="checkbox" name="interests" value="advanced-color-blue")
+                    label(for="advanced-color-blue") {U} Blue
+
+                    input#advanced-color-black(type="checkbox" name="interests" value="advanced-color-black")
+                    label(for="advanced-color-black") {B} Black
+
+                    input#advanced-color-red(type="checkbox" name="interests" value="advanced-color-red")
+                    label(for="advanced-color-red") {R} Red
+
+                    input#advanced-color-green(type="checkbox" name="interests" value="advanced-color-green")
+                    label(for="advanced-color-green") {G} Green
+
+                    input#advanced-color-colorless(type="checkbox" name="interests" value="advanced-color-colorless")
+                    label(for="advanced-color-colorless") {C} Colorless
+                    
+                p(style="font-style: italic" id="helper") Choose any card type, supertype, or subtypes to match. Click the "IS" or "NOT" button to toggle between including and excluding a type.

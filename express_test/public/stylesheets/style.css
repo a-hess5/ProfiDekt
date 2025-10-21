@@ -243,9 +243,29 @@
 
 .advanced-middle-man{
     border-bottom: 1px solid Black;
-
     display: grid;
     grid-template-columns: 80px 500px;
+}
+
+.advanced-checkbox{
+    margin-left: -200px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.advanced-checkbox input{
+    margin: 10px;
+    margin-bottom: 0;
+}
+
+.advanced-checkbox label{
+    display: inline-block; 
+    margin: 0; 
+    margin-left: -190px;
+    margin-right: -190px; 
+    margin-top: 10px;
+    border: 1px solid red;
 }
 
 #header{
@@ -254,7 +274,8 @@
 
 #helper{
     font-size: 12px;
-    margin: 0;
+    margin: 0px;
+    margin-top: 10px;
     margin-bottom: 15px;
 }
 
