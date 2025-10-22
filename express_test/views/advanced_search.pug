@@ -16,7 +16,7 @@ block content
         div.advanced-middle-man
             p(style="display: inline" id="header") Card Name
             div.advanced-center
-                input(type="text" name="username" placeholder=" Any words in the name")
+                input(type="text" name="username" placeholder=" Any words in the name" style="margin-bottom: 15px")
         
         div.advanced-middle-man
             p(style="display: inline" id="header") Text
@@ -28,32 +28,101 @@ block content
             p(style="display: inline" id="header") Type Line
             div.advanced-center(style="display: grid")
                 input(type="text" name="username" placeholder=" Enter a type")
-                div.advanced-checkbox
+                div.advanced-checkbox(style="left: -190px")
                     input(type="checkbox" name="interests" value="advanced-type-partial")
-                    label(for="advanced-type-partial") Allow partial type matches
+                    label(for="advanced-type-partial" style="left: -190px") Allow partial type matches
                     
                 p(style="font-style: italic" id="helper") Choose any card type, supertype, or subtypes to match. Click the "IS" or "NOT" button to toggle between including and excluding a type.
 
         div.advanced-middle-man
             p(style="display: inline" id="header") Color
-            div.advanced-center(style="display: grid")
+            div.advanced-center(style="display: grid; grid-template-columns: repeat(6, minmax(110px, 1fr)); gap: 10px; left: 65px")
                 div.advanced-checkbox
                     input#advanced-color-white(type="checkbox" name="interests" value="advanced-color-white")
-                    label(for="advanced-color-white") {W} White
+                    img(src="images/Game_Symbols/W.png" alt="")
+                    label(for="advanced-color-white") White
 
+                div.advanced-checkbox
                     input#advanced-color-blue(type="checkbox" name="interests" value="advanced-color-blue")
-                    label(for="advanced-color-blue") {U} Blue
+                    img(src="images/Game_Symbols/U.png" alt="")
+                    label(for="advanced-color-blue") Blue
 
+                div.advanced-checkbox
                     input#advanced-color-black(type="checkbox" name="interests" value="advanced-color-black")
-                    label(for="advanced-color-black") {B} Black
+                    img(src="images/Game_Symbols/B.png" alt="")
+                    label(for="advanced-color-black") Black
 
+                div.advanced-checkbox
                     input#advanced-color-red(type="checkbox" name="interests" value="advanced-color-red")
-                    label(for="advanced-color-red") {R} Red
+                    img(src="images/Game_Symbols/R.png" alt="")
+                    label(for="advanced-color-red") Red
 
+                div.advanced-checkbox
                     input#advanced-color-green(type="checkbox" name="interests" value="advanced-color-green")
-                    label(for="advanced-color-green") {G} Green
+                    img(src="images/Game_Symbols/G.png" alt="")
+                    label(for="advanced-color-green") Green
 
+                div.advanced-checkbox
                     input#advanced-color-colorless(type="checkbox" name="interests" value="advanced-color-colorless")
-                    label(for="advanced-color-colorless") {C} Colorless
+                    img(src="images/Game_Symbols/C.png" alt="")
+                    label(for="advanced-color-colorless") Colorless
+
+                label(for="ViewType" style="grid-column: 1 / -1;")
+                select#ViewType(name="view" onchange="this.form.submit()")
+                    option(value="exactly") Exactly these colors
+                    option(value="including") Including these colors
+                    option(value="most") At most these colors
                     
-                p(style="font-style: italic" id="helper") Choose any card type, supertype, or subtypes to match. Click the "IS" or "NOT" button to toggle between including and excluding a type.
+                p(style="font-style: italic; grid-column: 1 / -1;" id="helper") "Including" means cards that are all the colors you select, with or without any others. "At most" means cards that have some or all of the colors you select, plus colorless.
+
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Mana Cost
+            div.advanced-center
+                input(type="text" name="username" placeholder=" Any mana symbols, e.g. {W}")
+                p(style="font-style: italic" id="helper") Find cards with this exact mana cost.
+
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Stats
+            div.advanced-center
+                label(for="ViewType")
+                select#ViewType(name="view" onchange="this.form.submit()")
+                    option(value="exactly") Exactly these colors
+                    option(value="including") Including these colors
+                    option(value="most") At most these colors
+                
+                label(for="Test")
+                select#Test(name="view" onchange="this.form.submit()")
+                    option(value="exactly") Exactly these colors
+                    option(value="including") Including these colors
+                    option(value="most") At most these colors
+
+                input(type="text" name="username" placeholder=" Any Value, e.g. '2'" style="width: 175px; margin-bottom: 15px")
+
+                p(style="font-style: italic; margin-top: -10px" id="helper") Restrict cards based on their numeric statistics. Cards without stats will not be returned.
+
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Rarity
+            div.advanced-center(style="display: grid; grid-template-columns: repeat(6, minmax(110px, 1fr)); gap: 10px; left: 65px")
+                div.advanced-checkbox
+                    input#advanced-rarity-common(type="checkbox" name="interests" value="advanced-rarity-common")
+                    label(for="advanced-rarity-common") Common
+
+                div.advanced-checkbox
+                    input#advanced-rarity-uncommon(type="checkbox" name="interests" value="advanced-rarity-uncommon")
+                    label(for="advanced-rarity-uncommon") Uncommon
+
+                div.advanced-checkbox
+                    input#advanced-rarity-rare(type="checkbox" name="interests" value="advanced-rarity-rare")
+                    label(for="advanced-rarity-rare") Rare
+
+                div.advanced-checkbox
+                    input#advanced-rarity-mythic(type="checkbox" name="interests" value="advanced-rarity-mythic")
+                    label(for="advanced-rarity-mythic") Mythic
+                    
+                p(style="font-style: italic; grid-column: 1 / -1;" id="helper") Only return cards of the selected rarities.
+        
+        div.advanced-middle-man
+            p(style="display: inline" id="header") Flavor Text
+            div.advanced-center
+                input(type="text" name="username" placeholder=" Any flavor text e.g. 'snack'")
+                p(style="font-style: italic" id="helper") Enter text that should appear in the flavor text. Word order doesn't matter.

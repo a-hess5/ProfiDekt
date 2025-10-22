@@ -236,36 +236,57 @@
 }
 
 .advanced-center{
-    display: inline;
+    display: inline-flex;
     position: relative;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     left: 75px;
+    align-items: center;
 }
 
 .advanced-middle-man{
     border-bottom: 1px solid Black;
     display: grid;
-    grid-template-columns: 80px 500px;
+    grid-template-columns: 80px 600px;
+}
+
+.advanced-middle-man select{
+    height: 35px;
+    width: 175px;
+    margin-right: 5px;
 }
 
 .advanced-checkbox{
-    margin-left: -200px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+    position:relative;
+    left: 0px;    
+    gap: 0px;
 }
 
 .advanced-checkbox input{
     margin: 10px;
     margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+.advanced-checkbox img{
+    height: 15px;
+    width: 15px;
+    margin: 10px;
+    margin-right: 1px;
+    margin-left: 0px;
+    margin-bottom: 5px;
 }
 
 .advanced-checkbox label{
+    position: relative;
     display: inline-block; 
+    left: 0px;
     margin: 0; 
-    margin-left: -190px;
-    margin-right: -190px; 
     margin-top: 10px;
-    border: 1px solid red;
 }
 
 #header{
