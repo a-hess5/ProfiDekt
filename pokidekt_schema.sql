@@ -1,15 +1,3 @@
-import sqlite3
-import pandas as pd
-
-csv_path = "C:\\Users\\aug30\\Downloads\\cards22.csv"  # Update path to new csv
-df = pd.read_csv(csv_path)
-
-
-db_path = "instance\\pokidekt_database.db"
-conn = sqlite3.connect(db_path)
-cursor = conn.cursor()
-
-cursor.executescript("""
 DROP TABLE IF EXISTS cards;
 
 CREATE TABLE cards (
@@ -37,12 +25,6 @@ CREATE TABLE cards (
     flavor_text TEXT,
     image_path TEXT
 );
-""")
 
-
-df.to_sql("cards", conn, if_exists="append", index=False)
-
-conn.commit()
-conn.close()
-
-print("Works I think")
+CREATE INDEX idx_card_name ON cards(name);
+CREATE INDEX idx_card_type ON cards(card_type);

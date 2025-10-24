@@ -1,15 +1,3 @@
-import sqlite3
-import pandas as pd
-
-csv_path = "card_csv\\cardsMagi25.csv"  # Update path to new csv
-df = pd.read_csv(csv_path)
-
-
-db_path = "instance\\magiprof_database.db"
-conn = sqlite3.connect(db_path)
-cursor = conn.cursor()
-
-cursor.executescript("""
 DROP TABLE IF EXISTS cards;
 
 CREATE TABLE cards (
@@ -33,16 +21,10 @@ CREATE TABLE cards (
     flavor_text TEXT,
     power TEXT,
     toughness TEXT,
-    department REAL,
+    department TEXT,
     printing TEXT,
     image_filepath TEXT
 );
-""")
 
-
-df.to_sql("cards", conn, if_exists="append", index=False)
-
-conn.commit()
-conn.close()
-
-print("Works I think")
+CREATE INDEX idx_card_name ON cards(card_name);
+CREATE INDEX idx_department ON cards(department);
