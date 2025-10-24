@@ -46,7 +46,6 @@ block content
           option(value="desc" selected=(query.order === 'desc')) Descending
 
       // Top pagination buttons
-      button(type=button style="margin-left: 15%;" id="firstPageBtnTop") <<
       button(type=button id="prevPageBtnTop") < Previous
       span(style="margin: 0 10px; font-weight: bold;")
         | Page #{pagination.page || 1} of #{pagination.total_pages || 1}
@@ -84,20 +83,17 @@ block content
                 p(style="font-style: italic;")= card.flavor_text
       else if query.display === 'images'
         each card in cards
-          - const imgPath = card.image_filepath ? `/${card.image_filepath}` : '/card_images/default-card.png'
-          img(src=imgPath, alt=card.card_name || card.name, title=`${card.card_name || card.name}`, onerror="this.style.display='none'")
+          img(src=card.image_filepath, alt=card.card_name || card.name, title=`${card.card_name || card.name}`, onerror="this.style.display='none'")
       else if query.display === 'full'
         each card in cards
-          - const imgPath = card.image_filepath ? `/${card.image_filepath}` : '/card_images/default-card.png'
           div.card-wrapper
-            img.card-image(src=imgPath, alt=card.card_name || card.name)
+            img.card-image(src=card.image_filepath, alt=card.card_name || card.name)
             .card-info
               strong= card.card_name || card.name
               p= `${card.type1 || 'N/A'} | ${card.card_year || 'Unknown'}`
       else
         each card in cards
-          - const imgPath = card.image_filepath ? `/${card.image_filepath}` : '/card_images/default-card.png'
-          img(src=imgPath, alt=card.card_name || card.name, title=`${card.card_name || card.name}`, onerror="this.style.display='none'")
+          img(src=card.image_filepath, alt=card.card_name || card.name, title=`${card.card_name || card.name}`, onerror="this.style.display='none'")
     else
       p(style="grid-column: 1 / -1; text-align: center; padding: 40px;") No cards found
 
@@ -113,22 +109,6 @@ block content
         document.getElementById('searchForm').submit();
       }, 500);  // Wait 500ms after user stops typing
     });
-
-  script.
-      function sendWindowSize() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        fetch('/window-size', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ width, height })
-        }).catch(err => console.error('Failed to send window size:', err));
-      }
-      sendWindowSize();
-      window.addEventListener('resize', () => {
-        sendWindowSize();
-      });
 
   script.
     document.addEventListener("DOMContentLoaded", function() {

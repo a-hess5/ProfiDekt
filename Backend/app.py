@@ -299,6 +299,18 @@ def not_found(error):
 def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
+@app.route('/test-db', methods=['GET'])
+def test_db():
+    conn = get_magiprof_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM cards")
+    count = cursor.fetchone()[0]
+    cursor.execute("SELECT * FROM cards LIMIT 5")
+    samples = [dict(row) for row in cursor.fetchall()]
+    return jsonify({
+        "total_cards_in_db": count,
+        "sample_cards": samples
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)

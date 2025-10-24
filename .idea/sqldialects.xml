@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/import_magiprof_initial.py" dialect="SQLite" />
-    <file url="file://$PROJECT_DIR$/magiprof_schema.sql" dialect="SQLite" />
-    <file url="file://$PROJECT_DIR$/pokidekt_schema.sql" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/Backend/import_magiprof_initial.py" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/Backend/magiprof_schema.sql" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/Backend/pokidekt_schema.sql" dialect="SQLite" />
   </component>
 </project>

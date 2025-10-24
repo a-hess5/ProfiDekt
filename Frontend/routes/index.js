@@ -5,11 +5,6 @@ const axios = require('axios');
 // Configure Flask API URL
 const FLASK_API_URL = process.env.FLASK_API_URL || 'http://localhost:5000';
 
-// Handle window size tracking
-router.post('/window-size', function(req, res) {
-  res.json({ success: true });
-});
-
 /* GET index page with card data and filters */
 router.get('/', async function(req, res, next) {
   try {
@@ -24,20 +19,54 @@ router.get('/', async function(req, res, next) {
     // Build params for Flask API
     const params = {
       page: page,
-      per_page: 11
+      per_page: 12
     };
 
     if (searchQuery) {
       params.search = searchQuery;
     }
 
-    // Call Flask API
+    console.log(`\n[DEBUG /index] ========================================`);
+    console.log(`[DEBUG /index] Calling Flask API at: ${FLASK_API_URL}/api/magiprof/cards`);
+    console.log(`[DEBUG /index] Request Params:`, JSON.stringify(params));
+
+    // Call Flask API with timeout
     const response = await axios.get(`${FLASK_API_URL}/api/magiprof/cards`, {
-      params: params
+      params: params,
+      timeout: 5000 // 5 second timeout
     });
+
+    console.log(`[DEBUG /index] Flask API Response Status: ${response.status}`);
+    console.log(`[DEBUG /index] Cards received: ${response.data.cards ? response.data.cards.length : 0}`);
 
     let cards = response.data.cards || [];
     const pagination = response.data.pagination || { page: 1, total_pages: 0, total: 0 };
+
+    console.log(`[DEBUG /index] Cards Array Length: ${cards.length}`);
+    console.log(`[DEBUG /index] Pagination:`, JSON.stringify(pagination));
+
+    // Fix image paths - Flask returns relative paths, ensure they start with /
+    if (cards.length > 0) {
+      cards = cards.map(card => {
+        let filepath = card.image_filepath;
+
+        // Ensure path starts with / for absolute URL
+        if (filepath) {
+          if (!filepath.startsWith('/')) {
+            filepath = '/' + filepath;
+          }
+        } else {
+          filepath = '/card_images/default-card.png';
+        }
+
+        return {
+          ...card,
+          image_filepath: filepath
+        };
+      });
+
+      console.log(`[DEBUG /index] Sample fixed path: ${cards[0].image_filepath}`);
+    }
 
     // Apply sorting on frontend
     if (cards.length > 0) {
@@ -61,10 +90,10 @@ router.get('/', async function(req, res, next) {
       });
     }
 
-    // Get card image
+    // Get card image for featured section
     let cardImage = '/card_images/default-card.png';
     if (cards.length > 0 && cards[0].image_filepath) {
-      cardImage = '/' + cards[0].image_filepath;
+      cardImage = cards[0].image_filepath;
     }
 
     // Stats
@@ -72,6 +101,9 @@ router.get('/', async function(req, res, next) {
       total_cards: pagination.total || 0,
       unique_cards: pagination.total || 0
     };
+
+    console.log(`[DEBUG /index] About to render with ${cards.length} cards`);
+    console.log(`[DEBUG /index] ========================================\n`);
 
     res.render('index', {
       cards: cards,
@@ -89,7 +121,22 @@ router.get('/', async function(req, res, next) {
     });
 
   } catch (error) {
-    console.error('Error fetching cards from Flask API:', error.message);
+    console.error('\n[ERROR /index] ========================================');
+    console.error('[ERROR /index] Error Type:', error.code || error.name);
+    console.error('[ERROR /index] Error Message:', error.message);
+
+    if (error.response) {
+      console.error('[ERROR /index] Flask API Response Status:', error.response.status);
+      console.error('[ERROR /index] Flask API Response Data:', JSON.stringify(error.response.data, null, 2));
+    } else if (error.request) {
+      console.error('[ERROR /index] No response received from Flask API');
+      console.error('[ERROR /index] Request URL:', error.config?.url);
+    } else {
+      console.error('[ERROR /index] Error during request setup:', error.message);
+    }
+    console.error('[ERROR /index] FLASK_API_URL:', FLASK_API_URL);
+    console.error('[ERROR /index] ========================================\n');
+
     res.render('index', {
       cards: [],
       cardImage: '/card_images/default-card.png',
@@ -103,7 +150,7 @@ router.get('/', async function(req, res, next) {
         order: 'asc',
         display: 'images'
       },
-      error: 'Unable to load cards. Is the Flask API running?'
+      error: `Unable to load cards. Flask API Error: ${error.message}. Is Flask running at ${FLASK_API_URL}?`
     });
   }
 });
