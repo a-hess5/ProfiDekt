@@ -1,0 +1,132 @@
+extends layout 
+
+block content
+    div.header_container
+        div.search_banner
+            img(src="/images/Magilogo.png", alt="MagiProf Logo", style="margin-left: 18%;")
+            form#quickSearch(action="/search" method="GET" style="display: flex; align-items: center; flex: 1; margin-left: 2%;")
+                input(type="text" name="q" placeholder="Quick search..." style="background: none; border: 0px; color: white; flex: 1; padding: 10px;")
+
+            p(style="margin-left: 24%;") |
+            button(type="button" onclick="window.location.href='/index'") Search
+            button(type="button" onclick="alert('Syntax guide coming soon')") Syntax
+            button(type="button" onclick="alert('All sets coming soon')") Sets
+            button(type="button" onclick="alert('Random card feature coming soon')") Random
+            p(style="margin-left: 2%;") |
+
+    div.advanced-container(style="position: relative; margin-bottom: 40px;")
+        h2(style="margin-top: 0; color: #EB7127;") Advanced Search
+
+        form#advancedSearchForm(action="/advanced/search" method="POST" style="width: 100%;")
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Card Name
+                div.advanced-center
+                    input(type="text" name="card_name" placeholder=" Any words in the name" style="margin-bottom: 15px" value=(query.card_name || ''))
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Rules Text
+                div.advanced-center
+                    input(type="text" name="rules_text" placeholder=" Any text e.g. 'draw a card'" value=(query.rules_text || ''))
+                    p(style="font-style: italic" id="helper") Enter text that should appear in the rules. Word order doesn't matter.
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Card Type
+                div.advanced-center(style="display: grid")
+                    input(type="text" name="type_line" placeholder=" Enter a type" value=(query.type_line || ''))
+                    p(style="font-style: italic" id="helper") Search by card type (e.g., 'Creature', 'Instant', 'Land')
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Color
+                div.advanced-center(style="display: grid; grid-template-columns: repeat(6, minmax(110px, 1fr)); gap: 10px; left: 65px")
+                    div.advanced-checkbox
+                        input#advanced-color-white(type="checkbox" name="card_color" value="W" checked=(query.card_color && query.card_color.includes('W')))
+                        img(src="/images/Game_Symbols/W.png" alt="White")
+                        label(for="advanced-color-white") White
+
+                    div.advanced-checkbox
+                        input#advanced-color-blue(type="checkbox" name="card_color" value="U" checked=(query.card_color && query.card_color.includes('U')))
+                        img(src="/images/Game_Symbols/U.png" alt="Blue")
+                        label(for="advanced-color-blue") Blue
+
+                    div.advanced-checkbox
+                        input#advanced-color-black(type="checkbox" name="card_color" value="B" checked=(query.card_color && query.card_color.includes('B')))
+                        img(src="/images/Game_Symbols/B.png" alt="Black")
+                        label(for="advanced-color-black") Black
+
+                    div.advanced-checkbox
+                        input#advanced-color-red(type="checkbox" name="card_color" value="R" checked=(query.card_color && query.card_color.includes('R')))
+                        img(src="/images/Game_Symbols/R.png" alt="Red")
+                        label(for="advanced-color-red") Red
+
+                    div.advanced-checkbox
+                        input#advanced-color-green(type="checkbox" name="card_color" value="G" checked=(query.card_color && query.card_color.includes('G')))
+                        img(src="/images/Game_Symbols/G.png" alt="Green")
+                        label(for="advanced-color-green") Green
+
+                    div.advanced-checkbox
+                        input#advanced-color-colorless(type="checkbox" name="card_color" value="C" checked=(query.card_color && query.card_color.includes('C')))
+                        img(src="/images/Game_Symbols/C.png" alt="Colorless")
+                        label(for="advanced-color-colorless") Colorless
+
+                    p(style="font-style: italic; grid-column: 1 / -1;" id="helper") Select one or more colors to filter cards.
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Department
+                div.advanced-center
+                    select(name="department")
+                        option(value="") All Departments
+                        option(value="ONU") ONU
+                        option(value="ECCS") ECCS
+                        option(value="ME") ME
+                        option(value="CE") CE
+                        option(value="ENGR") ENGR
+                    p(style="font-style: italic" id="helper") Filter by department/college.
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Mana Cost
+                div.advanced-center
+                    input(type="text" name="mana_value" placeholder=" e.g. {W}, {UU}, {RRG}" value=(query.mana_value || ''))
+                    p(style="font-style: italic" id="helper") Find cards with specific mana costs.
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Power / Toughness
+                div.advanced-center(style="display: flex; gap: 10px; align-items: center;")
+                    div
+                        label(for="power") Power:
+                        input#power(type="text" name="power" placeholder=" e.g. 5" style="width: 100px;" value=(query.power || ''))
+                    div
+                        label(for="toughness") Toughness:
+                        input#toughness(type="text" name="toughness" placeholder=" e.g. 5" style="width: 100px;" value=(query.toughness || ''))
+                p(style="font-style: italic; margin-top: 10px;" id="helper") Find creatures with specific stats.
+
+            div.advanced-middle-man
+                p(style="display: inline" id="header") Flavor Text
+                div.advanced-center
+                    input(type="text" name="flavor_text" placeholder=" Any flavor text e.g. 'snack'" value=(query.flavor_text || ''))
+                    p(style="font-style: italic" id="helper") Search in card flavor text.
+
+            div.advanced-middle-man(style="border: none; margin-top: 20px;")
+                button(type="submit" style="padding: 10px 30px; background-color: #EB7127; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;") Search
+                button(type="reset" style="padding: 10px 30px; background-color: #999; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left: 10px;") Clear Filters
+
+    if resultsShown
+        div.full_screen(style="margin-top: 60px; width: 90%; margin-left: auto; margin-right: auto;")
+            if cards && cards.length > 0
+                each card in cards
+                    - const imgPath = card.image_filepath ? `/${card.image_filepath}` : '/card_images/default-card.png'
+                    img(src=imgPath, alt=card.card_name || card.name, title=`${card.card_name || card.name}`, onerror="this.style.display='none'")
+            else
+                p(style="grid-column: 1 / -1; text-align: center; padding: 40px;") No cards found matching your filters.
+
+        div.pagination
+            if pagination.page > 1
+                a(href=`/advanced/search?page=1`) First
+                a(href=`/advanced/search?page=${pagination.page - 1}`) Previous
+
+            span(style="margin: 0 10px;")
+                | Page #{pagination.page || 1} of #{pagination.total_pages || 1}
+
+            if pagination.page < pagination.total_pages
+                a(href=`/advanced/search?page=${pagination.page + 1}`) Next
+                a(href=`/advanced/search?page=${pagination.total_pages}`) Last

@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  .home-container
+    h1
+      | MagiProf is a powerful 
+      strong Magic: The Gathering 
+      | card search
+
+    form.search-form(action="/index" method="get")
+      input(type="text" name="q" placeholder="Search for cards...")
+      button(type="submit") Search
+
+    .search-buttons
+      button(type="button" onclick="window.location.href='/advanced'") Advanced Search
+      button(type="button" onclick="alert('Syntax guide coming soon')") Syntax Guide
+      button(type="button" onclick="alert('All sets coming soon')") All Sets
+      button(type="button" onclick="alert('Random card coming soon')") Random Card
+
+    .featured-list
+      each cardName in ['Zur the Enchanter', 'Sauron the Dark Lord', 'Optimus Prime', 'Illusionists Bracers']
+        .featured-item= cardName
+
+    .card-grid
+      .card-wrapper
+        img.card-image(src="/card_images/24-25/Zur the Enchanter (Funke the Lifter) (Full art).png", alt="Zur the Enchanter", onerror="this.style.display='none'")
+        .card-name-overlay Zur the Enchanter
+      .card-wrapper
+        img.card-image(src="/card_images/24-25/Sauron, the Dark Lord (Boulangon, the Darkness Lord).png", alt="Sauron, the Dark Lord", onerror="this.style.display='none'")
+        .card-name-overlay Sauron, the Dark Lord
+      .card-wrapper
+        img.card-image(src="/card_images/24-25/Optimus Prime, Hero (Kropptimus Prime, Optimizer).png", alt="Optimus Prime, Hero", onerror="this.style.display='none'")
+        .card-name-overlay Optimus Prime, Hero
+      .card-wrapper
+        img.card-image(src="/card_images/24-25/IllusionistÃ¢â‚¬â„¢s Bracers (MetallurgistÃ¢â‚¬â„¢s Bracers).png", alt="Illusionist's Bracers", onerror="this.style.display='none'")
+        .card-name-overlay Illusionist's Bracers
